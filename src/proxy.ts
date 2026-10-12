@@ -5,7 +5,15 @@ const secret = new TextEncoder().encode(
   process.env.AUTH_SECRET ?? "peoplecore-super-admin-secret-change-me"
 );
 
-const PUBLIC_PATHS = ["/login", "/api/auth/login", "/_next", "/favicon.ico"];
+// Public marketing site + its demo-request endpoint, plus the console login.
+const PUBLIC_PATHS = [
+  "/login",
+  "/api/auth/login",
+  "/_next",
+  "/favicon.ico",
+  "/site",
+  "/api/site",
+];
 
 export default async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
