@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import type { Metadata } from "next";
 import { STATS, SOLUTIONS, CONSOLES, BRAND } from "../content";
@@ -12,15 +13,26 @@ export default function AboutPage() {
   return (
     <div>
       <section className="bg-slate-900 text-white">
-        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            About {BRAND.name}
-          </h1>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-300 sm:text-base">
-            {BRAND.tagline} We build for Australian employers who are tired of stitching a payroll
-            tool, a rostering app and three spreadsheets together.
-          </p>
-          <dl className="mt-10 grid grid-cols-2 gap-6 border-t border-slate-800 pt-8 sm:grid-cols-4">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-2 lg:items-center">
+          <div>
+            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+              About {BRAND.name}
+            </h1>
+            <p className="mt-4 text-sm leading-relaxed text-slate-300 sm:text-base">
+              {BRAND.tagline} We build for Australian employers who are tired of stitching a payroll
+              tool, a rostering app and three spreadsheets together.
+            </p>
+          </div>
+
+          <img
+            src="/images/site/about-team.jpg"
+            alt="The PeopleCore AU team collaborating"
+            className="w-full rounded-2xl object-cover shadow-2xl ring-1 ring-slate-700"
+          />
+        </div>
+
+        <div className="mx-auto max-w-6xl px-4 pb-14 sm:px-6 sm:pb-20">
+          <dl className="grid grid-cols-2 gap-6 border-t border-slate-800 pt-8 sm:grid-cols-4">
             {STATS.map((s) => (
               <div key={s.label}>
                 <dt className="text-2xl font-semibold text-white sm:text-3xl">{s.value}</dt>

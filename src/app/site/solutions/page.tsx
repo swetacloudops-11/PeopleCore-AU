@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import type { Metadata } from "next";
 import { SOLUTIONS } from "../content";
@@ -27,20 +28,28 @@ export default function SolutionsIndexPage() {
             <Link
               key={s.slug}
               href={`/site/solutions/${s.slug}`}
-              className="card group p-6 transition hover:border-sky-300 hover:shadow-md"
+              className="card group overflow-hidden transition hover:border-sky-300 hover:shadow-md"
             >
-              <div className="flex items-start justify-between">
-                <span className="text-3xl">{s.icon}</span>
-                <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600">
-                  {s.builtIn}
-                </span>
+              <img
+                src={s.image}
+                alt={s.name}
+                loading="lazy"
+                className="h-44 w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+              />
+              <div className="p-6">
+                <div className="flex items-start justify-between">
+                  <span className="text-2xl">{s.icon}</span>
+                  <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600">
+                    {s.builtIn}
+                  </span>
+                </div>
+                <h2 className="mt-3 text-lg font-semibold text-slate-900 group-hover:text-sky-700">
+                  {s.name}
+                </h2>
+                <p className="mt-1 text-sm font-medium text-slate-700">{s.tagline}</p>
+                <p className="mt-3 text-sm leading-relaxed text-slate-600">{s.summary}</p>
+                <span className="mt-4 inline-block text-xs font-medium text-sky-600">Learn more →</span>
               </div>
-              <h2 className="mt-4 text-lg font-semibold text-slate-900 group-hover:text-sky-700">
-                {s.name}
-              </h2>
-              <p className="mt-1 text-sm font-medium text-slate-700">{s.tagline}</p>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600">{s.summary}</p>
-              <span className="mt-4 inline-block text-xs font-medium text-sky-600">Learn more →</span>
             </Link>
           ))}
         </div>

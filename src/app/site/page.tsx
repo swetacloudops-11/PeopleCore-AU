@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import {
   STATS,
@@ -14,32 +15,47 @@ export default function SiteHomePage() {
       {/* ── Hero ── */}
       <section className="bg-slate-900 text-white">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-          <p className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-800/60 px-3 py-1 text-xs font-medium text-sky-300">
-            🇦🇺 Built for Australian employers
-          </p>
-          <h1 className="mt-5 max-w-3xl text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
-            Employment. <span className="text-sky-400">Intelligently run.</span>
-          </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
-            PeopleCore AU keeps your people, rosters, time, payroll and compliance in one
-            platform — with an AI assistant in every console that answers from your own data.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/site/contact"
-              className="rounded-lg bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-400"
-            >
-              Book a demo
-            </Link>
-            <Link
-              href="/site/login"
-              className="rounded-lg border border-slate-700 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-slate-500"
-            >
-              Explore a workspace →
-            </Link>
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+          <div>
+            <p className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-800/60 px-3 py-1 text-xs font-medium text-sky-300">
+              🇦🇺 Built for Australian employers
+            </p>
+            <h1 className="mt-5 max-w-3xl text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
+              Employment. <span className="text-sky-400">Intelligently run.</span>
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
+              PeopleCore AU keeps your people, rosters, time, payroll and compliance in one
+              platform — with an AI assistant in every console that answers from your own data.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                href="/site/contact"
+                className="rounded-lg bg-sky-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-400"
+              >
+                Book a demo
+              </Link>
+              <Link
+                href="/site/login"
+                className="rounded-lg border border-slate-700 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-slate-500"
+              >
+                Explore a workspace →
+              </Link>
+            </div>
           </div>
 
-          <dl className="mt-12 grid grid-cols-2 gap-6 border-t border-slate-800 pt-8 sm:grid-cols-4">
+          <div className="relative">
+            <img
+              src="/images/site/hero-team.jpg"
+              alt="A team collaborating around a laptop"
+              className="w-full rounded-2xl object-cover shadow-2xl ring-1 ring-slate-700"
+            />
+            <div className="absolute -bottom-5 left-5 right-5 rounded-xl border border-slate-700 bg-slate-800/95 px-4 py-3 text-xs text-slate-200 shadow-lg backdrop-blur">
+              Rosters → attendance → timesheets → pay runs — one connected flow, no re-typing.
+            </div>
+          </div>
+          </div>
+
+          <dl className="mt-16 grid grid-cols-2 gap-6 border-t border-slate-800 pt-8 sm:grid-cols-4">
             {STATS.map((s) => (
               <div key={s.label}>
                 <dt className="text-2xl font-semibold text-white sm:text-3xl">{s.value}</dt>
@@ -190,15 +206,23 @@ export default function SiteHomePage() {
               Rosters, certifications and award-sensitive hours — configured for your sector.
             </p>
           </div>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {INDUSTRIES.map((i) => (
               <Link
                 key={i.slug}
                 href={`/site/industries/${i.slug}`}
-                className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 transition hover:border-sky-300 hover:shadow-sm"
+                className="card group overflow-hidden transition hover:border-sky-300 hover:shadow-md"
               >
-                <span className="text-xl">{i.icon}</span>
-                <span className="text-sm font-medium text-slate-800">{i.name}</span>
+                <img
+                  src={i.image}
+                  alt={i.name}
+                  loading="lazy"
+                  className="h-32 w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                />
+                <div className="flex items-center gap-2.5 px-4 py-3">
+                  <span className="text-lg">{i.icon}</span>
+                  <span className="text-sm font-medium text-slate-800">{i.name}</span>
+                </div>
               </Link>
             ))}
           </div>

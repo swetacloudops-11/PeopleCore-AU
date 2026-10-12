@@ -13,6 +13,7 @@ export type Solution = {
   summary: string;
   features: string[];
   builtIn: string; // where this lives in the product
+  image: string;
 };
 
 export type Industry = {
@@ -21,6 +22,7 @@ export type Industry = {
   name: string;
   summary: string;
   highlights: string[];
+  image: string;
 };
 
 export type Plan = {
@@ -93,6 +95,7 @@ export const SOLUTIONS: Solution[] = [
       "HR reports for headcount, leave, onboarding and offboarding",
     ],
     builtIn: "HR Admin console",
+    image: "/images/site/sol-hr.jpg",
   },
   {
     slug: "payroll",
@@ -110,6 +113,7 @@ export const SOLUTIONS: Solution[] = [
       "Everything scoped to the organisation — safe for multi-tenant use",
     ],
     builtIn: "Organisation Admin → Payroll",
+    image: "/images/site/sol-payroll.jpg",
   },
   {
     slug: "rostering-time",
@@ -128,6 +132,7 @@ export const SOLUTIONS: Solution[] = [
       "Employee availability windows",
     ],
     builtIn: "Organisation Admin → Rostering & Time",
+    image: "/images/site/sol-rostering.jpg",
   },
   {
     slug: "employee-portal",
@@ -147,6 +152,7 @@ export const SOLUTIONS: Solution[] = [
       "Notifications for shifts, leave and company announcements",
     ],
     builtIn: "Employee console",
+    image: "/images/site/sol-employee.jpg",
   },
   {
     slug: "ai-assistants",
@@ -165,6 +171,7 @@ export const SOLUTIONS: Solution[] = [
       "Works without a key using the built-in deterministic engine",
     ],
     builtIn: "Every console",
+    image: "/images/site/sol-ai.jpg",
   },
 ];
 
@@ -180,6 +187,7 @@ export const INDUSTRIES: Industry[] = [
       "Clock in/out for split shifts and overtime",
       "Certifications like RSA and food safety tracked automatically",
     ],
+    image: "/images/site/ind-hospitality.jpg",
   },
   {
     slug: "healthcare",
@@ -192,6 +200,7 @@ export const INDUSTRIES: Industry[] = [
       "Shift coverage and conflict detection",
       "Policy acknowledgement tracking for every clinician",
     ],
+    image: "/images/site/ind-healthcare.jpg",
   },
   {
     slug: "childcare-education",
@@ -204,6 +213,7 @@ export const INDUSTRIES: Industry[] = [
       "Onboarding checklists for new educators",
       "Rosters built around room ratios and availability",
     ],
+    image: "/images/site/ind-childcare.jpg",
   },
   {
     slug: "logistics",
@@ -216,6 +226,7 @@ export const INDUSTRIES: Industry[] = [
       "Overtime and attendance reporting",
       "Licence tracking — forklift, heavy vehicle, white card",
     ],
+    image: "/images/site/ind-logistics.jpg",
   },
   {
     slug: "manufacturing",
@@ -228,6 +239,7 @@ export const INDUSTRIES: Industry[] = [
       "Safety training and certification registers",
       "Attendance and overtime analytics",
     ],
+    image: "/images/site/ind-manufacturing.jpg",
   },
   {
     slug: "accounting-payroll",
@@ -240,6 +252,7 @@ export const INDUSTRIES: Industry[] = [
       "Per-organisation payroll runs and payslips",
       "Full audit trail of every change",
     ],
+    image: "/images/site/ind-accounting.jpg",
   },
 ];
 

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import { BRAND } from "../content";
 import DemoForm from "./DemoForm";
@@ -26,6 +27,12 @@ export default function ContactPage() {
         </div>
 
         <aside className="lg:col-span-2">
+          <img
+            src="/images/site/contact-side.jpg"
+            alt="Consultants reviewing a rollout plan with a client"
+            loading="lazy"
+            className="mb-4 h-44 w-full rounded-2xl object-cover"
+          />
           <div className="card p-5">
             <h2 className="text-sm font-semibold text-slate-900">Prefer email?</h2>
             <p className="mt-2 text-sm text-slate-600">
