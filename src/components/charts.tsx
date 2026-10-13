@@ -134,7 +134,7 @@ export function Donut({
 
       <ul className="mt-3 flex w-full flex-wrap justify-center gap-x-3 gap-y-1.5">
         {segments.map((s, i) => (
-          <li key={s.label} className="flex items-center gap-1.5 text-[11px] text-slate-600">
+          <li key={`${s.label}-${i}`} className="flex items-center gap-1.5 text-[11px] text-slate-600">
             <span
               className="h-2 w-2 shrink-0 rounded-full"
               style={{ backgroundColor: s.color ?? (s.tone ? toneHex(s.tone) : paletteAt(i)) }}
@@ -187,7 +187,7 @@ export function BarList({
         const Wrapper = item.href ? "a" : "div";
         const wrapperProps = item.href ? { href: item.href } : {};
         return (
-          <li key={item.label}>
+          <li key={`${item.label}-${i}`}>
             <Wrapper {...wrapperProps} className="block group">
               <div className="flex items-baseline justify-between gap-3">
                 <span className="truncate text-[13px] text-slate-600 group-hover:text-slate-900">
@@ -361,7 +361,7 @@ export function StackedBar({
       {showLegend && (
         <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
           {segments.map((s, i) => (
-            <li key={s.label} className="flex items-center gap-1.5 text-[11px] text-slate-500">
+            <li key={`${s.label}-${i}`} className="flex items-center gap-1.5 text-[11px] text-slate-500">
               <span
                 className="h-2 w-2 rounded-full"
                 style={{ backgroundColor: s.color ?? (s.tone ? toneHex(s.tone) : paletteAt(i)) }}

@@ -39,7 +39,7 @@ export default async function PayrollDashboardPage() {
     runTrend,
     recentNotifications,
     missingDetails,
-    latestRunLines,
+    latestRun,
   ] = await Promise.all([
     prisma.employee.count({
       where: { organisationId, employmentStatus: { not: "TERMINATED" } },
@@ -90,17 +90,27 @@ export default async function PayrollDashboardPage() {
         OR: [{ superFundName: null }, { baseSalary: 0, hourlyRate: 0 }],
       },
     }),
-    prisma.payRunLine.findMany({
-      where: { payRun: { organisationId } },
-      orderBy: { grossPay: "desc" },
-      take: 8,
-      select: {
-        grossPay: true,
-        hoursWorked: true,
-        employee: { select: { firstName: true, lastName: true, employeeNumber: true } },
-      },
+    prisma.payRun.findFirst({
+      where: { organisationId, lines: { some: {} } },
+      orderBy: [{ payDate: "desc" }, { createdAt: "desc" }],
+      select: { id: true, label: true },
     }),
   ]);
+
+  // Only the most recent run that actually has calculated lines: the same
+  // employee appears once per run, so scanning every run repeats their name.
+  const latestRunLines = latestRun
+    ? await prisma.payRunLine.findMany({
+        where: { payRunId: latestRun.id },
+        orderBy: { grossPay: "desc" },
+        take: 8,
+        select: {
+          grossPay: true,
+          hoursWorked: true,
+          employee: { select: { firstName: true, lastName: true, employeeNumber: true } },
+        },
+      })
+    : [];
 
   const needsAction =
     runs.filter((r) => r.status === "PENDING_APPROVAL").length +
@@ -277,7 +287,9 @@ export default async function PayrollDashboardPage() {
 
         <ChartPanel
           title="Top earners this cycle"
-          subtitle="Highest gross in the latest run"
+          subtitle={
+            latestRun ? `Highest gross · ${latestRun.label}` : "Highest gross in the latest run"
+          }
           action={
             <Link href="/payroll/employees/salary" className="text-[11px] text-amber-600 hover:underline">
               Salaries →
