@@ -133,9 +133,13 @@ const HR_CONSOLE_ROLES = ["HR_MANAGER", "HR_ADMIN"];
 /** Roles whose console home is the Employee self-service portal (/employee). */
 const EMPLOYEE_CONSOLE_ROLES = ["EMPLOYEE"];
 
+/** Roles whose console home is the Payroll console (/payroll). */
+const PAYROLL_CONSOLE_ROLES = ["PAYROLL_MANAGER", "PAYROLL_ADMIN"];
+
 /** Landing route for whichever role the signed-in account holds. */
 export function homeFor(session: SessionUser): string {
   if (!session.organisationId) return "/dashboard";
+  if (session.roles.some((r) => PAYROLL_CONSOLE_ROLES.includes(r))) return "/payroll/dashboard";
   if (session.roles.some((r) => HR_CONSOLE_ROLES.includes(r))) return "/hr/dashboard";
   if (session.roles.some((r) => EMPLOYEE_CONSOLE_ROLES.includes(r))) {
     return "/employee/dashboard";

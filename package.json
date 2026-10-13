@@ -12,7 +12,8 @@
                     "db:seed":  "tsx prisma/seed.ts",
                     "db:seed-org":  "tsx prisma/seed-org.ts",
                     "db:seed-hr":  "tsx prisma/seed-hr.ts",
-                    "db:seed-employee":  "tsx prisma/seed-employee.ts"
+                    "db:seed-employee":  "tsx prisma/seed-employee.ts",
+                    "db:seed-payroll":  "tsx prisma/seed-payroll.ts"
                 },
     "dependencies":  {
                          "@prisma/client":  "^6.19.3",
