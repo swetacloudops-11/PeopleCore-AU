@@ -2,6 +2,7 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import { aiStatus, runAiToolLoop, type AiChatMessage, type AiTool } from "@/lib/ai/llm";
 import { formatDate } from "@/lib/format";
+import { answerNamedEmployee } from "@/lib/ai/lookup";
 import type { AssistantReply } from "./assistant-engine";
 
 export type OrgAiContext = { organisationId: string; orgName: string; firstName: string };
@@ -30,6 +31,21 @@ const limitSchema = {
 function makeTools(ctx: OrgAiContext): AiTool[] {
   const org = ctx.organisationId;
   return [
+    {
+      name: "lookup_employee",
+      description:
+        "Answer about ONE named employee: attendance today, leave, shifts, certifications, documents or profile. Pass the name exactly as the user said it.",
+      parameters: {
+        type: "object",
+        properties: { employee_name: { type: "string", description: "The employee's full name, e.g. 'Alice Rossi'" } },
+        required: ["employee_name"],
+      },
+      execute: async (args) => {
+        const q = String(args["employee_name"] ?? "").trim();
+        if (!q) return { note: "No employee name provided." };
+        return (await answerNamedEmployee(org, q, "hr")) ?? { note: `No employee named "${q}" was found.` };
+      },
+    },
     {
       name: "get_headcount",
       description: "Organisation headcount totals and breakdowns by employment status and department.",
@@ -291,6 +307,7 @@ RULES
 - If a tool returns empty data, say so plainly instead of guessing.
 - Mirror the user's language: English or Hinglish.
 - Keep answers short (2-5 sentences). Use compact bullets when listing. No markdown tables.
+- For questions about one named person ("did Alice come in today?", "where is Alice based?"), call lookup_employee.
 - For "how do I / where do I" questions use the PORTAL GUIDE and give the exact route path, e.g. (/org/payroll/pay-runs).
 - Money is AUD. Dates are Australian format (DD Mon YYYY).
 

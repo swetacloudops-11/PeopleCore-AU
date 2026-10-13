@@ -1,6 +1,7 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import { formatDate, formatDateTime, formatMoney } from "@/lib/format";
+import { answerNamedOrganisation } from "@/lib/ai/lookup";
 
 /**
  * Deterministic "assistant" for the Super Admin (platform) console.
@@ -27,6 +28,7 @@ export const SUGGESTIONS = [
   "Are any background jobs failing?",
   "What happened in the audit log today?",
   "Which plans are most popular?",
+  "Tell me about Coral Coast Tourism",
 ];
 
 const daysAgo = (n: number) => new Date(Date.now() - n * 86400_000);
@@ -381,6 +383,7 @@ export const CAPABILITIES = [
   "audit activity",
   "active sessions",
   "largest tenants",
+  "a specific organisation's details",
 ];
 
 export function describeCapabilities(): string {
@@ -390,6 +393,11 @@ export function describeCapabilities(): string {
 /** Answer a natural-language question with live platform-wide aggregates. */
 export async function answerQuestion(question: string): Promise<AssistantReply> {
   const q = question.toLowerCase().trim();
+
+  // A named organisation ("tell me about Coral Coast Tourism") is answered
+  // directly, before the aggregate intents, so nothing existing changes.
+  const named = await answerNamedOrganisation(question);
+  if (named) return { intent: named.intent, answer: named.answer, table: named.table ?? null };
 
   const scored = INTENTS.map((i) => ({
     intent: i,

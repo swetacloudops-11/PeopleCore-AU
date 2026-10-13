@@ -1,6 +1,7 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import { formatDate, formatMoney, formatDateTime } from "@/lib/format";
+import { answerNamedEmployee } from "@/lib/ai/lookup";
 
 /**
  * Deterministic "assistant" for an organisation admin.
@@ -20,6 +21,7 @@ export type AssistantReply = {
 export const SUGGESTIONS = [
   "How many employees do we have?",
   "Who is on leave today?",
+  "Where is Alice Rossi based?",
   "What approvals are pending?",
   "What was our payroll total this month?",
   "Are there any roster conflicts?",
@@ -556,6 +558,7 @@ export const CAPABILITIES = [
   "integration / sync health",
   "org users and roles",
   "department breakdown",
+  "attendance, leave and details for a named employee",
 ];
 
 export function describeCapabilities(): string {
@@ -568,6 +571,11 @@ export async function answerQuestion(
   question: string
 ): Promise<AssistantReply> {
   const q = question.toLowerCase().trim();
+
+  // A named employee is answered directly, before the aggregate intents, so
+  // existing behaviour is untouched.
+  const named = await answerNamedEmployee(organisationId, question, "hr");
+  if (named) return { intent: named.intent, answer: named.answer, table: named.table ?? null };
 
   // Score every intent by how many of its patterns hit — the best match wins,
   // so mixed questions route sensibly.

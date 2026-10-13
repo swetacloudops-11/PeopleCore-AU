@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { formatDate, formatDateTime, formatMoney } from "@/lib/format";
 import { aiStatus, runAiToolLoop, type AiChatMessage, type AiTool } from "@/lib/ai/llm";
 import { stpState } from "@/app/payroll/stp/derive";
+import { answerNamedEmployee } from "@/lib/ai/lookup";
 import type { AssistantReply } from "./assistant-engine";
 
 export type PayrollAiContext = { organisationId: string; orgName: string; firstName: string };
@@ -25,6 +26,21 @@ const limitSchema = {
 function makeTools(ctx: PayrollAiContext): AiTool[] {
   const org = ctx.organisationId;
   return [
+    {
+      name: "lookup_employee_pay",
+      description:
+        "Answer about ONE named employee's pay: pay basis, latest payslip, super accrued, PAYG records and super fund. Pass the name exactly as the user said it.",
+      parameters: {
+        type: "object",
+        properties: { employee_name: { type: "string", description: "The employee's full name, e.g. 'Alice Rossi'" } },
+        required: ["employee_name"],
+      },
+      execute: async (args) => {
+        const q = String(args["employee_name"] ?? "").trim();
+        if (!q) return { note: "No employee name provided." };
+        return (await answerNamedEmployee(org, q, "payroll")) ?? { note: `No employee named "${q}" was found.` };
+      },
+    },
     {
       name: "get_payroll_totals",
       description: "Payroll totals for the last 30 days (gross, net, super, PAYG) plus recent pay runs.",
@@ -359,6 +375,7 @@ RULES
 - If a tool returns empty data, say so plainly instead of guessing.
 - Mirror the user's language: English or Hinglish.
 - Keep answers short (2-5 sentences). Use compact bullets when listing. No markdown tables.
+- For questions about one named person ("what did Alice get paid?", "is Samuel in today?"), call lookup_employee_pay.
 - For "how do I / where do I" questions use the PORTAL GUIDE and give the exact route path, e.g. (/payroll/pay-runs).
 - Money is AUD. Dates are Australian format (DD Mon YYYY).
 - Explain payroll terms in plain language (gross, net, PAYG, super, STP, penalty rates).

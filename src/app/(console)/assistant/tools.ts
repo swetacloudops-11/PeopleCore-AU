@@ -2,6 +2,7 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import { formatDate, formatDateTime, formatMoney } from "@/lib/format";
 import { aiStatus, runAiToolLoop, type AiChatMessage, type AiTool } from "@/lib/ai/llm";
+import { answerNamedOrganisation } from "@/lib/ai/lookup";
 import type { AssistantReply } from "./assistant-engine";
 
 export type PlatformAiContext = { firstName: string };
@@ -17,6 +18,21 @@ const limitSchema = {
 /** Tools for the Super Admin (platform) console — platform-wide scope. */
 function makeTools(): AiTool[] {
   return [
+    {
+      name: "lookup_organisation",
+      description:
+        "Answer about ONE named organisation: status, employee count, plan and subscription, integrations and sync activity. Pass the name exactly as the user said it.",
+      parameters: {
+        type: "object",
+        properties: { organisation_name: { type: "string", description: "The organisation's name, e.g. 'Coral Coast Tourism'" } },
+        required: ["organisation_name"],
+      },
+      execute: async (args) => {
+        const q = String(args["organisation_name"] ?? "").trim();
+        if (!q) return { note: "No organisation name provided." };
+        return (await answerNamedOrganisation(q)) ?? { note: `No organisation named "${q}" was found.` };
+      },
+    },
     {
       name: "get_organisations",
       description: "Platform organisation counts by status, plus the most recently created tenants.",
@@ -284,6 +300,7 @@ RULES
 - If a tool returns empty data, say so plainly instead of guessing.
 - Mirror the user's language: English or Hinglish.
 - Keep answers short (2-5 sentences). Use compact bullets when listing. No markdown tables.
+- For questions about one named organisation ("tell me about Coral Coast Tourism"), call lookup_organisation.
 - For "how do I / where do I" questions use the PORTAL GUIDE and give the exact route path.
 - Money is AUD. Dates are Australian format (DD Mon YYYY).
 

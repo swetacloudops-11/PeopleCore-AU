@@ -2,6 +2,7 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import { formatDate, formatDateTime, formatMoney } from "@/lib/format";
 import { stpState } from "@/app/payroll/stp/derive";
+import { answerNamedEmployee } from "@/lib/ai/lookup";
 
 /**
  * Deterministic "assistant" for the Payroll Admin console.
@@ -28,6 +29,7 @@ export const SUGGESTIONS = [
   "What penalty rates do we have set up?",
   "What is our STP lodgement status?",
   "Who are our highest paid employees?",
+  "What is Alice Rossi's pay?",
 ];
 
 const daysAgo = (n: number) => new Date(Date.now() - n * 86400_000);
@@ -509,6 +511,7 @@ export const CAPABILITIES = [
   "highest paid employees",
   "missing pay/super details",
   "payroll integration sync health",
+  "one employee's pay, super and PAYG",
 ];
 
 export function describeCapabilities(): string {
@@ -521,6 +524,11 @@ export async function answerQuestion(
   question: string
 ): Promise<AssistantReply> {
   const q = question.toLowerCase().trim();
+
+  // A named employee ("what did Priya Menon get paid?") is answered directly,
+  // before the aggregate intents, so existing behaviour is untouched.
+  const named = await answerNamedEmployee(organisationId, question, "payroll");
+  if (named) return { intent: named.intent, answer: named.answer, table: named.table ?? null };
 
   const scored = INTENTS.map((i) => ({
     intent: i,
