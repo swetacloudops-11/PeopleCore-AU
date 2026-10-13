@@ -14,7 +14,7 @@ export default function ConsoleLayout({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-100">
+    <div className="pc-scope flex h-screen overflow-hidden bg-slate-100">
       {/* Desktop sidebar */}
       <div className="hidden md:block">
         <Sidebar />

@@ -9,6 +9,7 @@ export type PayrollNavItem = {
 /** Full Payroll Admin menu — every href lives under /payroll. */
 export const PAYROLL_NAV: PayrollNavItem[] = [
   { label: "Dashboard", icon: "🏠", href: "/payroll/dashboard" },
+  { label: "AI Assistant", icon: "🤖", href: "/payroll/assistant" },
   {
     label: "Payroll Management",
     icon: "💰",

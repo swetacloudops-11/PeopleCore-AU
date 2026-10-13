@@ -50,7 +50,7 @@ export default function NotificationToggle({
         aria-label={isEnabled ? "Disable notification" : "Enable notification"}
       >
         <span
-          className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${
+          className={`absolute top-0.5 h-5 w-5 rounded-full pc-knob shadow transition-transform ${
             isEnabled ? "translate-x-[22px]" : "translate-x-0.5"
           }`}
         />

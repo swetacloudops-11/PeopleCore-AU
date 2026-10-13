@@ -8,6 +8,11 @@ export const NAV: NavItem[] = [
     href: "/dashboard",
   },
   {
+    label: "AI Assistant",
+    icon: "🤖",
+    href: "/assistant",
+  },
+  {
     label: "Organisations",
     icon: "🏢",
     children: [

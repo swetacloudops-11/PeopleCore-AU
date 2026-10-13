@@ -63,7 +63,7 @@ function SettingField({ setting }: { setting: SettingDto }) {
           aria-label={setting.label}
         >
           <span
-            className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition ${
+            className={`absolute top-0.5 h-5 w-5 rounded-full pc-knob shadow transition ${
               on ? "left-[22px]" : "left-0.5"
             }`}
           />

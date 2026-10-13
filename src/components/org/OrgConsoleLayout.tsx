@@ -16,7 +16,7 @@ export default function OrgConsoleLayout({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-100">
+    <div className="pc-scope flex h-screen overflow-hidden bg-slate-100">
       <div className="hidden md:block">
         <OrgSidebar orgName={orgName} />
       </div>

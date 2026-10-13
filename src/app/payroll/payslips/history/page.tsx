@@ -168,7 +168,7 @@ export default async function PayslipHistoryPage({
           <ol className="relative space-y-4 border-l border-slate-200 pl-5">
             {pageGroups.map((g) => (
               <li key={g.key} className="relative">
-                <span className="absolute -left-[26px] top-3 grid h-3 w-3 place-items-center rounded-full border-2 border-amber-400 bg-white" />
+                <span className="absolute -left-[26px] top-3 grid h-3 w-3 place-items-center rounded-full border-2 border-amber-400 pc-knob" />
                 <div className="card p-4">
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
                     <div>

@@ -2,6 +2,7 @@
 
 import { useState, Suspense, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import ThemeToggle from "@/components/ThemeToggle";
 
 function Field({
   id,
@@ -230,7 +231,10 @@ const FEATURES = [
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="pc-scope relative flex min-h-screen bg-slate-50">
+      <div className="absolute right-4 top-4 z-20">
+        <ThemeToggle className="grid h-9 w-9 place-items-center rounded-lg border border-slate-200 text-slate-500 transition hover:bg-slate-50" />
+      </div>
       {/* ── Brand panel ─────────────────────────────────────────────── */}
       <div className="relative hidden overflow-hidden bg-slate-900 lg:flex lg:w-[52%] lg:flex-col lg:justify-between xl:w-[55%]">
         {/* Decorative glows */}

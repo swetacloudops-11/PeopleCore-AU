@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { initials } from "@/lib/format";
+import ThemeToggle from "@/components/ThemeToggle";
 
 type Notif = {
   id: string;
@@ -99,6 +100,16 @@ export default function PayrollTopbar({
         >
           ✅ Approvals
         </Link>
+
+        <Link
+          href="/payroll/assistant"
+          className="hidden items-center gap-1.5 rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-600 transition hover:bg-slate-50 sm:inline-flex"
+          title="Ask the payroll assistant"
+        >
+          🤖 AI
+        </Link>
+
+        <ThemeToggle className="grid h-9 w-9 place-items-center rounded-lg border border-slate-200 text-slate-500 transition hover:bg-slate-50" />
 
         {/* Notifications */}
         <div className="relative">

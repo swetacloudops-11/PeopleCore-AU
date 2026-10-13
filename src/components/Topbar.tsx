@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { initials } from "@/lib/format";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Topbar({
   user,
@@ -42,6 +43,16 @@ export default function Topbar({
         <span className="hidden rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 sm:inline">
           ● Platform operational
         </span>
+
+        <ThemeToggle className="grid h-9 w-9 place-items-center rounded-lg border border-slate-200 text-slate-500 transition hover:bg-slate-50" />
+
+        <Link
+          href="/assistant"
+          className="hidden items-center gap-1.5 rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-600 transition hover:bg-slate-50 sm:inline-flex"
+          title="Ask the platform assistant"
+        >
+          🤖 AI
+        </Link>
 
         <Link
           href="/settings"

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { initials } from "@/lib/format";
+import ThemeToggle from "@/components/ThemeToggle";
 
 type Notif = {
   id: string;
@@ -90,6 +91,8 @@ export default function EmployeeTopbar({
         <span className="hidden rounded-full bg-violet-50 px-2.5 py-1 text-xs font-medium text-violet-700 sm:inline">
           ● {orgName}
         </span>
+
+        <ThemeToggle className="grid h-9 w-9 place-items-center rounded-lg border border-slate-200 text-slate-500 transition hover:bg-slate-50" />
 
         {/* Notifications */}
         <div className="relative">
